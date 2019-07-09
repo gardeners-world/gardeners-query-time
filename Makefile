@@ -1,4 +1,4 @@
-PROJECT = gardeners-query-time
+PROJECT = $(shell git remote -v | grep origin | grep fetch | sed "s:.*/\(.*\)\.git .*:\1:")
 ID = pikesley/${PROJECT}
 
 all: build
@@ -10,5 +10,8 @@ push:
 	docker push ${ID}
 
 run:
-	docker run -v "$(shell pwd)"/gqt:/opt/gqt -it ${ID}:latest bash
+	docker run \
+	-v "$(shell pwd)"/gqt:/opt/gqt \
+	-p 9292:9292 \
+	-it ${ID}:latest bash
 
